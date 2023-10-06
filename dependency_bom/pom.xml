@@ -13,6 +13,7 @@
     <name>dependency_bom</name>
     <modules>
         <module>../order-service</module>
+        <module>../kitchen-service</module>
     </modules>
 
     <properties>
