@@ -15,6 +15,7 @@
     <description>FoodService</description>
     <modules>
         <module>dependency_bom</module>
+        <module>order-service</module>
     </modules>
 
     <packaging>pom</packaging>
