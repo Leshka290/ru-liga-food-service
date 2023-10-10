@@ -26,4 +26,7 @@ public class Delivery {
     @OneToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
+    @OneToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 }

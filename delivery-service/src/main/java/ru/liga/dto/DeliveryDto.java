@@ -7,7 +7,7 @@ import lombok.Data;
 @Schema(name = "Delivery")
 public class DeliveryDto {
     private long order_id;
-    private String restaurant;
-    private String customer;
-    private String payment;
+    private RestaurantDto restaurant;
+    private CustomerDto customer;
+    private PaymentDto payment;
 }
