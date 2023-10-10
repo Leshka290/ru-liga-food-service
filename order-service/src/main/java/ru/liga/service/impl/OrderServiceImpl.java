@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.liga.dto.CreatedOrderDto;
 import ru.liga.dto.MenuItems;
 import ru.liga.dto.OrderDto;
+import ru.liga.dto.OrderStatus;
 import ru.liga.entity.Order;
 import ru.liga.mapper.OrderMapper;
 import ru.liga.repository.OrderRepository;
@@ -37,7 +38,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public CreatedOrderDto createOrder(Long restaurantId, MenuItems menuItems) {
+        return null;
+    }
 
+    @Override
+    public List<OrderDto> getAllByStatus(OrderStatus status) {
         return null;
     }
 }
