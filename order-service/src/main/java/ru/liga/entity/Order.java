@@ -14,7 +14,7 @@ import java.util.List;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "image_id", nullable = false)
+    @Column(name = "order_id", nullable = false)
     private long id;
     private Timestamp timestamp;
 

@@ -2,6 +2,7 @@ package ru.liga.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.liga.dto.DeliveryStatus;
 
 import javax.persistence.*;
 
@@ -14,8 +15,10 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "delivery_id", nullable = false)
     private long id;
-
+    @Enumerated(EnumType.STRING)
+    private DeliveryStatus status;
     @OneToOne
+    @JoinColumn(name = "payment_id")
     private Payment payment;
     @OneToOne
     @JoinColumn(name = "order_id")
