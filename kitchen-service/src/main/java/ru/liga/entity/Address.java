@@ -20,4 +20,13 @@ public class Address {
     private String street;
     @Column(name = "building", nullable = false)
     private String building;
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", building='" + building + '\'' +
+                '}';
+    }
 }

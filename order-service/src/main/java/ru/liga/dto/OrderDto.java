@@ -9,7 +9,7 @@ import java.util.List;
 @Schema(name = "Orders")
 public class OrderDto {
     private Long id;
-    private String restaurant;
+    private RestaurantDto restaurant;
     private String timestamp;
     private List<ItemDto> items;
 }

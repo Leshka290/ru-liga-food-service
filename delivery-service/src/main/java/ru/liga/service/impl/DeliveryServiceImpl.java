@@ -32,15 +32,15 @@ public class DeliveryServiceImpl implements DeliveryService {
     public List<DeliveryDto> getAllByStatus(DeliveryStatus status) {
         log.info("Current method is - getAllByStatus");
         List<Delivery> deliveries = deliveryRepository.getAllByStatus(status);
-//                return deliveryMapper.deliveryToDeliveryDto(deliveries);
+                return deliveryMapper.deliveryToDeliveryDto(deliveries);
         //Заглушка для проверки контроллера
-        List<DeliveryDto> list = new ArrayList<>();
-        DeliveryDto dto = new DeliveryDto();
-        dto.setCustomer("c");
-        dto.setRestaurant("restaurant");
-        dto.setOrder_id(2);
-        dto.setPayment("payment");
-        list.add(dto);
-        return list;
+//        List<DeliveryDto> list = new ArrayList<>();
+//        DeliveryDto dto = new DeliveryDto();
+//        dto.setCustomer("c");
+//        dto.setRestaurant("restaurant");
+//        dto.setOrder_id(2);
+//        dto.setPayment("payment");
+//        list.add(dto);
+//        return list;
     }
 }
