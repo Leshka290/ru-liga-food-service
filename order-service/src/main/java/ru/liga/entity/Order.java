@@ -2,6 +2,7 @@ package ru.liga.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.liga.dto.OrderStatus;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -17,10 +18,18 @@ public class Order {
     @Column(name = "order_id", nullable = false)
     private long id;
     private Timestamp timestamp;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     @OneToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
     @OneToMany(mappedBy = "order")
-    private List<Item> items;
+    private List<OrderItem> items;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+    @ManyToOne
+    @JoinColumn(name = "courier_id")
+    private Courier courier;
 }

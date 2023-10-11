@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Table(name = "items")
-public class Item {
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id", nullable = false)
@@ -29,4 +29,7 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+    @OneToOne
+    @JoinColumn(name = "restaurant_menu_item_id")
+    private RestaurantMenuItem restaurantMenuItem;
 }

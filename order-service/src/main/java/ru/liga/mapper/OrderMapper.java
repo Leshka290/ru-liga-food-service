@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import ru.liga.dto.MenuItems;
 import ru.liga.dto.OrderDto;
-import ru.liga.entity.Item;
+import ru.liga.entity.OrderItem;
 import ru.liga.entity.Order;
 
 import java.util.List;
@@ -25,5 +25,5 @@ public interface OrderMapper {
     List<OrderDto> ordersToOrderDto(List<Order> orders);
 
     @Mapping(source = "item.id", target = "menu_item_id")
-    MenuItems itemsToMenuItems(int quantity, Item item);
+    MenuItems itemsToMenuItems(int quantity, OrderItem item);
 }

@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "customer")
+@Table(name = "customers")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +22,4 @@ public class Customer {
     @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;
-
 }
