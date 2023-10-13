@@ -16,13 +16,14 @@
         <module>../kitchen-service</module>
         <module>../notification-service</module>
         <module>../delivery-service</module>
+        <module>../migration</module>
     </modules>
 
     <properties>
         <java.version>11</java.version>
         <spring.version>2.7.16</spring.version>
         <org.yaml.version>2.0</org.yaml.version>
-        <org.liquibase.version>4.21.0</org.liquibase.version>
+        <org.liquibase.version>4.9.1</org.liquibase.version>
         <junit.version>3.8.1</junit.version>
         <org.projectlombok.version>1.18.30</org.projectlombok.version>
         <org.postgresql.version>42.5.1</org.postgresql.version>
@@ -56,17 +57,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-core</artifactId>
-                <version>${org.liquibase.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.postgresql</groupId>
-                <artifactId>postgresql</artifactId>
-                <version>${org.postgresql.version}</version>
-                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -112,6 +102,11 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>${org.springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${org.liquibase.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
