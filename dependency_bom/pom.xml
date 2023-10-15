@@ -8,16 +8,8 @@
     </parent>
 
     <artifactId>dependency_bom</artifactId>
-    <packaging>pom</packaging>
-
     <name>dependency_bom</name>
-    <modules>
-        <module>../order-service</module>
-        <module>../kitchen-service</module>
-        <module>../notification-service</module>
-        <module>../delivery-service</module>
-        <module>../migration</module>
-    </modules>
+    <packaging>pom</packaging>
 
     <properties>
         <java.version>11</java.version>
@@ -31,6 +23,7 @@
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <org.springdoc.version>1.6.14</org.springdoc.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -88,20 +81,14 @@
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
                 <version>${org.mapstruct.version}</version>
             </dependency>
             <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${org.springdoc.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${org.springdoc.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.liquibase</groupId>
@@ -151,7 +138,6 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>

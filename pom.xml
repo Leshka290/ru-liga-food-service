@@ -8,11 +8,14 @@
         <version>2.7.16</version>
         <relativePath/>
     </parent>
+
     <groupId>ru.liga</groupId>
     <artifactId>foodService</artifactId>
     <version>1.0.0</version>
     <name>FoodService</name>
     <description>FoodService</description>
+    <packaging>pom</packaging>
+
     <modules>
         <module>dependency_bom</module>
         <module>order-service</module>
@@ -20,6 +23,4 @@
         <module>notification-service</module>
         <module>delivery-service</module>
     </modules>
-
-    <packaging>pom</packaging>
 </project>
