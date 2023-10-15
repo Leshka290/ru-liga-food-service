@@ -1,0 +1,10 @@
+DROP TABLE delivery;
+DROP TABLE items;
+DROP TABLE orders;
+DROP TABLE restaurant_menu_items;
+DROP TABLE restaurants;
+DROP TABLE payments;
+DROP TABLE customers;
+DROP TABLE couriers;
+DROP TABLE address;
+DROP TABLE images;

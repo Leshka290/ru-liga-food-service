@@ -16,7 +16,7 @@ public class Courier {
     @Column(name = "courier_id", nullable = false)
     private long id;
     @Column(name = "phone", nullable = false)
-    private int phone;
+    private String phone;
     @Column(name = "coordinates", nullable = false)
     private int coordinates;
     @Enumerated(EnumType.STRING)

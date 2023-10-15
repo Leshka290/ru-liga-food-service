@@ -18,7 +18,7 @@ public class Image {
     private long fileSize;
     @Column(name = "file_path", nullable = false)
     private String filePath;
-    @Column(name = "madia_type", nullable = false)
+    @Column(name = "media_type", nullable = false)
     private String mediaType;
     @Column(name = "file_extension", nullable = false)
     private String fileExtension;
