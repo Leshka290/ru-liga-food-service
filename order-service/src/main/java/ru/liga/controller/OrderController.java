@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.liga.dto.CreatedOrderDto;
 import ru.liga.dto.MenuItems;
 import ru.liga.dto.OrderDto;
+import ru.liga.dto.OrderStatus;
 import ru.liga.service.OrderService;
 
 import javax.validation.Valid;
@@ -44,5 +45,11 @@ public class OrderController {
                                                     @RequestBody MenuItems menuItems) {
         log.info("Request POST addOrder");
         return ResponseEntity.ok(orderService.createOrder(restaurantId, menuItems));
+    }
+
+    @GetMapping("/orders/{status}")
+    public ResponseEntity<List<OrderDto>> getAllByStatus(@PathVariable OrderStatus status) {
+        log.info("Request GET orders by status");
+        return ResponseEntity.ok(orderService.getAllByStatus(status));
     }
 }
