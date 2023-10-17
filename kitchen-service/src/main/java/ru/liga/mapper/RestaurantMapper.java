@@ -10,4 +10,6 @@ import ru.liga.entity.Restaurant;
 public interface RestaurantMapper {
     @Mapping(source = "name", target = "name")
     RestaurantDto restaurantToRestaurantDto(Restaurant restaurant);
+    @Mapping(source = "name", target = "name")
+    Restaurant restaurantDtoToRestaurant(RestaurantDto dto);
 }

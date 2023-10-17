@@ -5,9 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import ru.liga.dto.DeliveryDto;
 import ru.liga.dto.OrderActionDto;
-import ru.liga.dto.RestaurantDto;
 import ru.liga.entity.Delivery;
-import ru.liga.entity.Restaurant;
 
 import java.util.List;
 
