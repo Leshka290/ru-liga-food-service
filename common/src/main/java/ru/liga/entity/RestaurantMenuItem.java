@@ -21,7 +21,7 @@ public class RestaurantMenuItem {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id")
     private Image image;
     @ManyToOne

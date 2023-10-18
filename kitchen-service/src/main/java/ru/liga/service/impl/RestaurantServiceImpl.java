@@ -4,14 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.liga.dto.CreateOrUpdateItemDto;
 import ru.liga.dto.RestaurantDto;
 import ru.liga.dto.RestaurantMenuItemDto;
 import ru.liga.dto.UpdatePriceMenuItemDto;
 import ru.liga.entity.Image;
 import ru.liga.entity.RestaurantMenuItem;
+import ru.liga.exception.ItemNotFoundException;
 import ru.liga.mapper.RestaurantMenuItemMapper;
 import ru.liga.repository.ImageRepository;
 import ru.liga.repository.RestaurantMenuItemRepository;
+import ru.liga.repository.RestaurantRepository;
 import ru.liga.service.ImageService;
 import ru.liga.service.RestaurantService;
 
@@ -23,7 +26,7 @@ import java.util.List;
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantMenuItemRepository restaurantMenuItemRepository;
-    private final ImageRepository imageRepository;
+    private final RestaurantRepository restaurantRepository;
     private final ImageService imageService;
     private final RestaurantMenuItemMapper restaurantMenuItemMapper;
 
@@ -36,19 +39,18 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public RestaurantMenuItemDto createRestaurantMenuItem(RestaurantMenuItemDto restaurantMenuItemDto, MultipartFile imageFile) {
+    public RestaurantMenuItemDto createRestaurantMenuItem(CreateOrUpdateItemDto createOrUpdateItemDto, MultipartFile imageFile) {
         RestaurantMenuItem restaurantMenuItem = restaurantMenuItemMapper
-                .restaurantMenuItemDtoToRestaurantMenuItem(restaurantMenuItemDto);
-
+                .createOrUpdateItemDtoToRestaurantMenuItem(createOrUpdateItemDto);
         Image image;
         try {
             image = imageService.saveImageFile(imageFile);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        imageRepository.save(image);
+        restaurantMenuItem.setImage(image);
         restaurantMenuItemRepository.save(restaurantMenuItem);
-        return restaurantMenuItemDto;
+        return restaurantMenuItemMapper.restaurantMenuItemToRestaurantMenuItemDto(restaurantMenuItem);
     }
 
     @Override
@@ -57,5 +59,20 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .findById(updatePriceMenuItemDto.getId_menu_item()).orElseThrow();
         restaurantMenuItem.setPrice(updatePriceMenuItemDto.getPrice());
         restaurantMenuItemRepository.save(restaurantMenuItem);
+    }
+
+    @Override
+    public boolean updateImage(Long id, MultipartFile imageFile) {
+        log.info("started updateImage.");
+        RestaurantMenuItem restaurantMenuItem = restaurantMenuItemRepository.findById(id).orElseThrow(ItemNotFoundException::new);
+            Image image;
+            try {
+                image = imageService.saveImageFile(imageFile);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            restaurantMenuItem.setImage(image);
+            restaurantMenuItemRepository.save(restaurantMenuItem);
+            return true;
     }
 }

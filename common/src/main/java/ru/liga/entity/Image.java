@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.nio.file.Path;
 
 @Entity
 @Data
@@ -22,4 +23,12 @@ public class Image {
     private String mediaType;
     @Column(name = "file_extension", nullable = false)
     private String fileExtension;
+
+    public Path getPath() {
+        return Path.of(this.filePath);
+    }
+
+    public String getUrl() {
+        return String.format("/%s/%s", getPath().getParent(), getId());
+    }
 }

@@ -8,12 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(name = "RestaurantMenuItem")
-public class RestaurantMenuItemDto {
-    private String name;
-    private Integer price;
+@Schema(name = "CreateOrUpdateItem")
+public class CreateOrUpdateItemDto {
     private String description;
+    private int price;
+    private String name;
     private String title;
     private RestaurantDto restaurant;
-    private String image;
 }
