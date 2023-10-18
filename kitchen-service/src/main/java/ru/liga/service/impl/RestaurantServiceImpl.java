@@ -9,6 +9,7 @@ import ru.liga.dto.RestaurantDto;
 import ru.liga.dto.RestaurantMenuItemDto;
 import ru.liga.dto.UpdatePriceMenuItemDto;
 import ru.liga.entity.Image;
+import ru.liga.entity.Restaurant;
 import ru.liga.entity.RestaurantMenuItem;
 import ru.liga.exception.ItemNotFoundException;
 import ru.liga.mapper.RestaurantMenuItemMapper;

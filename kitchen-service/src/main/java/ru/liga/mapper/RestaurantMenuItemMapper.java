@@ -14,6 +14,7 @@ public interface RestaurantMenuItemMapper {
     @Mapping(source = "restaurantMenuItem.name", target = "name")
     @Mapping(source = "restaurantMenuItem.price", target = "price")
     @Mapping(source = "restaurantMenuItem.description", target = "description")
+    @Mapping(source = "restaurantMenuItem.restaurant", target = "restaurant")
     @Mapping(target = "image", expression = "java(restaurantMenuItem.getImage() != null ? restaurantMenuItem.getImage().getUrl() : \"\")")
     List<RestaurantMenuItemDto> restaurantMenuItemsToRestaurantMenuItemsDto(List<RestaurantMenuItem> restaurantMenuItems);
 
@@ -22,6 +23,7 @@ public interface RestaurantMenuItemMapper {
     @Mapping(source = "restaurantMenuItem.name", target = "name")
     @Mapping(source = "restaurantMenuItem.price", target = "price")
     @Mapping(source = "restaurantMenuItem.description", target = "description")
+    @Mapping(source = "restaurantMenuItem.restaurant", target = "restaurant")
     @Mapping(target = "image", expression = "java(restaurantMenuItem.getImage() != null ? restaurantMenuItem.getImage().getUrl() : \"\")")
     RestaurantMenuItemDto restaurantMenuItemToRestaurantMenuItemDto(RestaurantMenuItem restaurantMenuItem);
 }

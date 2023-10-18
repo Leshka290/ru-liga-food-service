@@ -13,7 +13,6 @@ public class RestaurantMenuItemDto {
     private String name;
     private Integer price;
     private String description;
-    private String title;
     private RestaurantDto restaurant;
     private String image;
 }

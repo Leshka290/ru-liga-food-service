@@ -13,6 +13,5 @@ public class CreateOrUpdateItemDto {
     private String description;
     private int price;
     private String name;
-    private String title;
     private RestaurantDto restaurant;
 }

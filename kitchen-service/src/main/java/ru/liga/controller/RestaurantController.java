@@ -57,23 +57,23 @@ public class RestaurantController {
     }
 
     @Operation(summary = "Обновление цены товара")
-    @PostMapping("/update_price")
+    @PatchMapping("/update_price")
     public ResponseEntity<?> updatePriceMenuItem(@RequestBody UpdatePriceMenuItemDto updatePriceMenuItemDto) {
-        log.info("Request GET menu items by restaurant");
+        log.info("Request PATCH update price item");
         restaurantService.updatePriceMenuItem(updatePriceMenuItemDto);
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Обновление картинки объявления",
+    @Operation(summary = "Обновление картинки товара",
             responses = {@ApiResponse(responseCode = "200", description = "OK"
                     , content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE
                     , schema = @Schema(type = "array", format = "byte"))),
                     @ApiResponse(responseCode = "404",
                             description = "Not Found")}, tags = "Image")
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> updateAdsImage(@PathVariable Long id,
+    public ResponseEntity<?> updateItemImage(@PathVariable Long id,
                                             @RequestParam MultipartFile imageFile) {
-        log.info("Update image ags id: {}", id);
+        log.info("Update image item id: {}", id);
         if (restaurantService.updateImage(id, imageFile)) {
             return ResponseEntity.ok().build();
         } else {
