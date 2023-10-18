@@ -11,7 +11,9 @@ import java.util.List;
 public interface RestaurantService {
     List<RestaurantMenuItemDto> getRestaurantMenuItemsByRestaurant(RestaurantDto restaurantDto);
 
-    RestaurantMenuItemDto createRestaurantMenuItem(CreateOrUpdateItemDto createOrUpdateItemDto, MultipartFile imageFile);
+    RestaurantMenuItemDto createRestaurantMenuItem(String restaurantName,
+                                                   CreateOrUpdateItemDto createOrUpdateItemDto,
+                                                   MultipartFile imageFile);
 
     void updatePriceMenuItem(UpdatePriceMenuItemDto updatePriceMenuItemDto);
 

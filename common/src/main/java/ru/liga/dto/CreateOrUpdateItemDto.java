@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Schema(name = "CreateOrUpdateItem")
 public class CreateOrUpdateItemDto {
-    private String description;
-    private int price;
     private String name;
-    private RestaurantDto restaurant;
+    private Integer price;
+    private String description;
 }

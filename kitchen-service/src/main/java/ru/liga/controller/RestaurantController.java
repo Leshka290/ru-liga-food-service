@@ -17,7 +17,6 @@ import ru.liga.dto.RestaurantMenuItemDto;
 import ru.liga.dto.UpdatePriceMenuItemDto;
 import ru.liga.service.RestaurantService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -29,31 +28,31 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @Operation(summary = "Получение всех товаров в меню ресторана")
+    @ApiResponse(responseCode = "200", description = "OK",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = RestaurantMenuItemDto.class)))
+    @ApiResponse(responseCode = "401", description = "Unauthorized")
     @GetMapping("/all")
-    public ResponseEntity<List<RestaurantMenuItemDto>> getMenuItemsByRestaurant(@RequestBody RestaurantDto restaurantDto) {
+    public ResponseEntity<List<RestaurantMenuItemDto>> getMenuItemsByRestaurant(RestaurantDto restaurantDto) {
         log.info("Request GET menu items by restaurant");
-        List<RestaurantMenuItemDto> restaurantMenuItemsDto = restaurantService
-                .getRestaurantMenuItemsByRestaurant(restaurantDto);
 
-        if (restaurantMenuItemsDto != null) {
-            return ResponseEntity.ok(restaurantMenuItemsDto);
-        }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return ResponseEntity.ok(restaurantService
+                .getRestaurantMenuItemsByRestaurant(restaurantDto));
     }
 
     @Operation(summary = "Добавление товара")
     @ApiResponse(responseCode = "201", description = "Created",
             content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = RestaurantMenuItemDto.class))
+                    mediaType = MediaType.APPLICATION_JSON_VALUE)
     )
     @ApiResponse(responseCode = "401", description = "Unauthorized")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<RestaurantMenuItemDto> createMenuItem(@RequestPart("properties") @Valid CreateOrUpdateItemDto properties,
-                                                                @RequestBody @Valid MultipartFile image) {
+    public ResponseEntity<?> createMenuItem(String restaurantName, CreateOrUpdateItemDto properties,
+                                            @RequestBody MultipartFile image) {
         log.info("Request POST menu item");
-        System.out.println(properties.getDescription());
-        return ResponseEntity.ok(restaurantService.createRestaurantMenuItem(properties, image));
+        restaurantService.createRestaurantMenuItem(restaurantName, properties, image);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Обновление цены товара")
@@ -72,7 +71,7 @@ public class RestaurantController {
                             description = "Not Found")}, tags = "Image")
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateItemImage(@PathVariable Long id,
-                                            @RequestParam MultipartFile imageFile) {
+                                             @RequestParam MultipartFile imageFile) {
         log.info("Update image item id: {}", id);
         if (restaurantService.updateImage(id, imageFile)) {
             return ResponseEntity.ok().build();
