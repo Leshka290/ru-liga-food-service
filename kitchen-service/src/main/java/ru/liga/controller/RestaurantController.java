@@ -44,12 +44,13 @@ public class RestaurantController {
     @Operation(summary = "Добавление товара")
     @ApiResponse(responseCode = "201", description = "Created",
             content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE)
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = RestaurantMenuItemDto.class))
     )
     @ApiResponse(responseCode = "401", description = "Unauthorized")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> createMenuItem(String restaurantName, CreateOrUpdateItemDto properties,
-                                            @RequestBody MultipartFile image) {
+    public ResponseEntity<RestaurantMenuItemDto> createMenuItem(String restaurantName, CreateOrUpdateItemDto properties,
+                                                                @RequestBody MultipartFile image) {
         log.info("Request POST menu item");
         restaurantService.createRestaurantMenuItem(restaurantName, properties, image);
         return ResponseEntity.ok().build();

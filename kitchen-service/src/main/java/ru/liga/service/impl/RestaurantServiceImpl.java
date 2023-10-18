@@ -38,7 +38,18 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public RestaurantMenuItemDto createRestaurantMenuItem(String restaurantName, CreateOrUpdateItemDto createOrUpdateItemDto, MultipartFile imageFile) {
+    public RestaurantMenuItemDto createRestaurantMenuItem(String restaurantName,
+                                                          CreateOrUpdateItemDto createOrUpdateItemDto,
+                                                          MultipartFile imageFile) {
+
+        restaurantMenuItemRepository.save(createMenuItem(restaurantName, createOrUpdateItemDto, imageFile));
+        return restaurantMenuItemMapper.restaurantMenuItemToRestaurantMenuItemDto(
+                createMenuItem(restaurantName, createOrUpdateItemDto, imageFile));
+    }
+
+    private RestaurantMenuItem createMenuItem(String restaurantName,
+                                              CreateOrUpdateItemDto createOrUpdateItemDto,
+                                              MultipartFile imageFile) {
         Restaurant restaurant = restaurantRepository.getRestaurantByName(restaurantName).orElseThrow();
 
         RestaurantMenuItem restaurantMenuItem = new RestaurantMenuItem();
@@ -47,16 +58,8 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantMenuItem.setPrice(createOrUpdateItemDto.getPrice());
         restaurantMenuItem.setRestaurant(restaurant);
 
-        Image image;
-        try {
-            image = imageService.saveImageFile(imageFile);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        restaurantMenuItem.setImage(image);
-        restaurantMenuItemRepository.save(restaurantMenuItem);
-        return restaurantMenuItemMapper.restaurantMenuItemToRestaurantMenuItemDto(restaurantMenuItem);
+        restaurantMenuItem.setImage(saveImage(imageFile));
+        return restaurantMenuItem;
     }
 
     @Override
@@ -71,16 +74,19 @@ public class RestaurantServiceImpl implements RestaurantService {
     public boolean updateImage(Long id, MultipartFile imageFile) {
         log.info("started updateImage.");
         RestaurantMenuItem restaurantMenuItem = restaurantMenuItemRepository.findById(id).orElseThrow(ItemNotFoundException::new);
-        Image image;
 
-        try {
-            image = imageService.saveImageFile(imageFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        restaurantMenuItem.setImage(image);
+        restaurantMenuItem.setImage(saveImage(imageFile));
         restaurantMenuItemRepository.save(restaurantMenuItem);
         return true;
+    }
+
+    private Image saveImage(MultipartFile imageFile) {
+        Image image;
+        try {
+            image = imageService.saveImageFile(imageFile);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        return image;
     }
 }
