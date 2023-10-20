@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface DeliveryMapper {
 
-    @Mapping(source = "delivery.order", target = "order_id")
+    @Mapping(source = "delivery.order", target = "order")
     @Mapping(source = "delivery.restaurant", target = "restaurant")
     @Mapping(source = "delivery.customer", target = "customer")
     @Mapping(source = "delivery.payment", target = "payment")

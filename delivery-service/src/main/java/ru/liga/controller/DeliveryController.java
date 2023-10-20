@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.dto.DeliveryDto;
 import ru.liga.dto.DeliveryStatus;
-import ru.liga.dto.OrderActionDto;
+import ru.liga.dto.OrderAction;
 import ru.liga.service.DeliveryService;
 
 import java.util.List;
@@ -19,9 +19,10 @@ public class DeliveryController {
     private final DeliveryService deliveryService;
 
     @PostMapping("/{id}")
-    public ResponseEntity<OrderActionDto> setOrderAction(@PathVariable Long id) {
+    public ResponseEntity<?> setOrderAction(@PathVariable Long id, OrderAction orderAction) {
         log.info("Request POST delivery order action");
-        return ResponseEntity.ok(deliveryService.setOrderAction(id));
+        deliveryService.setOrderAction(id, orderAction);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{status}")
