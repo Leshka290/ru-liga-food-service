@@ -23,10 +23,10 @@ public class Delivery {
     @OneToOne
     @JoinColumn(name = "order_id")
     private Order order;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 }
