@@ -32,7 +32,7 @@ public class RestaurantController {
             content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = RestaurantMenuItemDto.class)))
-    @ApiResponse(responseCode = "401", description = "Unauthorized")
+    @ApiResponse(responseCode = "403", description = "Forbidden")
     @GetMapping("/all")
     public ResponseEntity<List<RestaurantMenuItemDto>> getMenuItemsByRestaurant(RestaurantDto restaurantDto) {
         log.info("Request GET menu items by restaurant");
@@ -42,12 +42,12 @@ public class RestaurantController {
     }
 
     @Operation(summary = "Добавление товара")
-    @ApiResponse(responseCode = "201", description = "Created",
+    @ApiResponse(responseCode = "200", description = "Created",
             content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = RestaurantMenuItemDto.class))
     )
-    @ApiResponse(responseCode = "401", description = "Unauthorized")
+    @ApiResponse(responseCode = "403", description = "Forbidden")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<RestaurantMenuItemDto> createMenuItem(String restaurantName, CreateOrUpdateItemDto properties,
                                                                 @RequestBody MultipartFile image) {
@@ -57,6 +57,8 @@ public class RestaurantController {
     }
 
     @Operation(summary = "Обновление цены товара")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "403", description = "Forbidden")
     @PatchMapping("/update_price")
     public ResponseEntity<?> updatePriceMenuItem(@RequestBody UpdatePriceMenuItemDto updatePriceMenuItemDto) {
         log.info("Request PATCH update price item");

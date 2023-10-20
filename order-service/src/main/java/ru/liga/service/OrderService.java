@@ -1,9 +1,6 @@
 package ru.liga.service;
 
-import ru.liga.dto.CreatedOrderDto;
-import ru.liga.dto.MenuItems;
-import ru.liga.dto.OrderDto;
-import ru.liga.dto.OrderStatus;
+import ru.liga.dto.*;
 
 import java.util.List;
 
@@ -12,7 +9,7 @@ public interface OrderService {
 
     List<OrderDto> getAllOrders();
 
-    CreatedOrderDto createOrder(Long restaurantId, MenuItems menuItems);
+    CreatedOrderDto createOrder(CustomerDto customerDto, Long restaurantId, MenuItems menuItems);
 
     List<OrderDto> getAllByStatus(OrderStatus status);
 }

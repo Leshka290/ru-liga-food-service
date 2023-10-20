@@ -73,7 +73,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public boolean updateImage(Long id, MultipartFile imageFile) {
         log.info("started updateImage.");
-        RestaurantMenuItem restaurantMenuItem = restaurantMenuItemRepository.findById(id).orElseThrow(ItemNotFoundException::new);
+        RestaurantMenuItem restaurantMenuItem = restaurantMenuItemRepository
+                .findById(id).orElseThrow(ItemNotFoundException::new);
 
         restaurantMenuItem.setImage(saveImage(imageFile));
         restaurantMenuItemRepository.save(restaurantMenuItem);

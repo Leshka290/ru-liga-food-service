@@ -24,4 +24,5 @@ public interface RestaurantMenuItemMapper {
     @Mapping(source = "restaurantMenuItem.restaurant", target = "restaurant")
     @Mapping(target = "image", expression = "java(restaurantMenuItem.getImage() != null ? restaurantMenuItem.getImage().getUrl() : \"\")")
     RestaurantMenuItemDto restaurantMenuItemToRestaurantMenuItemDto(RestaurantMenuItem restaurantMenuItem);
+
 }

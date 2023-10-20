@@ -1,14 +1,15 @@
 package ru.liga.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.liga.dto.CreatedOrderDto;
-import ru.liga.dto.MenuItems;
-import ru.liga.dto.OrderDto;
-import ru.liga.dto.OrderStatus;
+import ru.liga.dto.*;
 import ru.liga.service.OrderService;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ import java.util.List;
 public class OrderController {
     private final OrderService orderService;
 
+    @Operation(summary = "Получение заказа по id")
     @ApiResponse(responseCode = "200", description = "OK")
     @ApiResponse(responseCode = "400", description = "Bad Request")
     @ApiResponse(responseCode = "404", description = "Not Found")
@@ -31,6 +33,7 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
+    @Operation(summary = "Получение всех заказов")
     @ApiResponse(responseCode = "200", description = "OK")
     @ApiResponse(responseCode = "400", description = "Bad Request")
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
@@ -40,13 +43,21 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
+    @Operation(summary = "Добавление заказа")
+    @ApiResponse(responseCode = "200", description = "Created",
+            content = @Content(
+                    schema = @Schema(implementation = CreatedOrderDto.class))
+    )
     @PostMapping()
-    public ResponseEntity<CreatedOrderDto> createOrder(@Valid Long restaurantId,
-                                                    @RequestBody MenuItems menuItems) {
+    public ResponseEntity<CreatedOrderDto> createOrder(CustomerDto customerDto, @Valid Long restaurantId,
+                                                       @RequestBody MenuItems menuItems) {
         log.info("Request POST addOrder");
-        return ResponseEntity.ok(orderService.createOrder(restaurantId, menuItems));
+        return ResponseEntity.ok(orderService.createOrder(customerDto, restaurantId, menuItems));
     }
 
+    @Operation(summary = "Получение всех заказов по статусу")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "400", description = "Bad Request")
     @GetMapping("/orders/{status}")
     public ResponseEntity<List<OrderDto>> getAllByStatus(@PathVariable OrderStatus status) {
         log.info("Request GET orders by status");
