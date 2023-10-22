@@ -3,8 +3,10 @@ package ru.liga.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.liga.client.KitchenFeign;
 import ru.liga.dto.CourierDto;
 import ru.liga.dto.CourierStatus;
+import ru.liga.dto.RestaurantDto;
 import ru.liga.entity.Courier;
 import ru.liga.mapper.CourierMapper;
 import ru.liga.repository.CourierRepository;
@@ -18,6 +20,7 @@ import java.util.List;
 public class CourierServiceImpl implements CourierService {
     private final CourierRepository courierRepository;
     private final CourierMapper courierMapper;
+    private final KitchenFeign kitchenFeign;
 
     @Override
     public CourierDto addCourier(CourierDto courierDto) {
@@ -40,5 +43,10 @@ public class CourierServiceImpl implements CourierService {
         courierRepository.save(courier);
 
         return courierMapper.courierToCourierDto(courier);
+    }
+
+    @Override
+    public List<RestaurantDto> getRestaurants() {
+        return kitchenFeign.getRestaurants();
     }
 }

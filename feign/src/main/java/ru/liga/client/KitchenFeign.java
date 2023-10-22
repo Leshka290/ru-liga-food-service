@@ -9,6 +9,6 @@ import java.util.List;
 
 @FeignClient(name = "kitchen-service", url = "http://localhost:8090")
 public interface KitchenFeign {
-    @GetMapping("/menu_item/all/restaurants")
+    @GetMapping("/restaurant/all")
     List<RestaurantDto> getRestaurants();
 }

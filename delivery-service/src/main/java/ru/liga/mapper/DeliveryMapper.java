@@ -14,6 +14,6 @@ public interface DeliveryMapper {
 
     List<DeliveryDto> deliveryToDeliveryDto(List<Delivery> delivery);
 
-    @Mapping(source = "delivery.status", target = "order_action")
+    @Mapping(source = "delivery.status", target = "orderAction")
     OrderActionDto deliveryToOrderActionDto(Delivery delivery);
 }

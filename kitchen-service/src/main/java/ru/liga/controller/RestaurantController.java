@@ -21,7 +21,7 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/menu_item")
+@RequestMapping("/restaurant")
 @RestController
 public class RestaurantController {
 
@@ -33,7 +33,7 @@ public class RestaurantController {
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = RestaurantMenuItemDto.class)))
     @ApiResponse(responseCode = "403", description = "Forbidden")
-    @GetMapping("/all")
+    @GetMapping("/menu_item/all")
     public ResponseEntity<List<RestaurantMenuItemDto>> getMenuItemsByRestaurant(RestaurantDto restaurantDto) {
         log.info("Request GET menu items by restaurant");
 
@@ -48,7 +48,7 @@ public class RestaurantController {
                     schema = @Schema(implementation = RestaurantMenuItemDto.class))
     )
     @ApiResponse(responseCode = "403", description = "Forbidden")
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/menu_item", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<RestaurantMenuItemDto> createMenuItem(String restaurantName, CreateOrUpdateItemDto properties,
                                                                 @RequestBody MultipartFile image) {
         log.info("Request POST menu item");
@@ -60,7 +60,7 @@ public class RestaurantController {
     @Operation(summary = "Обновление цены товара")
     @ApiResponse(responseCode = "200", description = "OK")
     @ApiResponse(responseCode = "403", description = "Forbidden")
-    @PatchMapping("/update_price")
+    @PatchMapping("/menu_item/update_price")
     public ResponseEntity<?> updatePriceMenuItem(@RequestBody UpdatePriceMenuItemDto updatePriceMenuItemDto) {
         log.info("Request PATCH update price item");
         restaurantService.updatePriceMenuItem(updatePriceMenuItemDto);
@@ -74,7 +74,7 @@ public class RestaurantController {
                     , schema = @Schema(type = "array", format = "byte"))),
                     @ApiResponse(responseCode = "404",
                             description = "Not Found")}, tags = "Image")
-    @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PatchMapping(value = "/menu_item/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateItemImage(@PathVariable Long id,
                                              @RequestParam MultipartFile imageFile) {
         log.info("Update image item id: {}", id);
@@ -91,7 +91,7 @@ public class RestaurantController {
             content = @Content(
                     schema = @Schema(implementation = RestaurantDto.class)))
     @ApiResponse(responseCode = "403", description = "Forbidden")
-    @GetMapping("/all/restaurants")
+    @GetMapping("/all")
     public ResponseEntity<List<RestaurantDto>> getRestaurants() {
         log.info("Request GET restaurants");
 
