@@ -12,6 +12,7 @@ import ru.liga.entity.Image;
 import ru.liga.entity.Restaurant;
 import ru.liga.entity.RestaurantMenuItem;
 import ru.liga.exception.ItemNotFoundException;
+import ru.liga.mapper.RestaurantMapper;
 import ru.liga.mapper.RestaurantMenuItemMapper;
 import ru.liga.repository.RestaurantMenuItemRepository;
 import ru.liga.repository.RestaurantRepository;
@@ -29,6 +30,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final ImageService imageService;
     private final RestaurantMenuItemMapper restaurantMenuItemMapper;
     private final RestaurantRepository restaurantRepository;
+    private final RestaurantMapper restaurantMapper;
 
     @Override
     public List<RestaurantMenuItemDto> getRestaurantMenuItemsByRestaurant(RestaurantDto restaurantDto) {
@@ -89,5 +91,9 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new RuntimeException(ex);
         }
         return image;
+    }
+
+    public List<RestaurantDto> getRestaurants() {
+        return restaurantMapper.restaurantsToRestaurantsDto(restaurantRepository.findAll());
     }
 }

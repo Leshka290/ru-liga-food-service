@@ -82,5 +82,18 @@ public class RestaurantController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+    @Operation(summary = "Получение всех ресторанов")
+    @ApiResponse(responseCode = "200", description = "OK",
+            content = @Content(
+                    schema = @Schema(implementation = RestaurantDto.class)))
+    @ApiResponse(responseCode = "403", description = "Forbidden")
+    @GetMapping("/all/restaurants")
+    public ResponseEntity<List<RestaurantDto>> getRestaurants() {
+        log.info("Request GET restaurants");
+
+        return ResponseEntity.ok(restaurantService
+                .getRestaurants());
+    }
 }
 

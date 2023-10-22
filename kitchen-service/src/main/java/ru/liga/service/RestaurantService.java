@@ -18,4 +18,6 @@ public interface RestaurantService {
     void updatePriceMenuItem(UpdatePriceMenuItemDto updatePriceMenuItemDto);
 
     boolean updateImage(Long id, MultipartFile imageFile);
+
+    List<RestaurantDto> getRestaurants();
 }

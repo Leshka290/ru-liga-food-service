@@ -24,5 +24,6 @@
         <module>delivery-service</module>
         <module>migration</module>
         <module>common</module>
+        <module>feign</module>
     </modules>
 </project>
