@@ -1,5 +1,6 @@
 package ru.liga.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 public class DeliveryController {
     private final DeliveryService deliveryService;
 
+    @Operation(summary = "Изменение статуса заказа")
     @PostMapping("/{id}")
     public ResponseEntity<?> setOrderAction(@PathVariable Long id, OrderAction orderAction) {
         log.info("Request POST delivery order action");
@@ -25,6 +27,7 @@ public class DeliveryController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "Получение списка доставок по статусу")
     @GetMapping("/{status}")
     public ResponseEntity<List<DeliveryDto>> getAllByStatus(@PathVariable DeliveryStatus status) {
         log.info("Request GET delivery");

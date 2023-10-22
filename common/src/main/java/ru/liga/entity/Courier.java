@@ -15,6 +15,8 @@ public class Courier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "courier_id", nullable = false)
     private long id;
+    @Column(name = "name", nullable = false)
+    private String name;
     @Column(name = "phone", nullable = false)
     private String phone;
     @Column(name = "coordinates", nullable = false)

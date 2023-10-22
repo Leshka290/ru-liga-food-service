@@ -67,7 +67,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public void updatePriceMenuItem(UpdatePriceMenuItemDto updatePriceMenuItemDto) {
         RestaurantMenuItem restaurantMenuItem = restaurantMenuItemRepository
-                .findById(updatePriceMenuItemDto.getId_menu_item()).orElseThrow();
+                .findById(updatePriceMenuItemDto.getIdMenuItem()).orElseThrow();
         restaurantMenuItem.setPrice(updatePriceMenuItemDto.getPrice());
         restaurantMenuItemRepository.save(restaurantMenuItem);
     }

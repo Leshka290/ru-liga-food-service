@@ -52,11 +52,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public CreatedOrderDto createOrder(CustomerDto customerDto, Long restaurantId, MenuItems menuItems) {
         CreatedOrderDto createdOrderDto = new CreatedOrderDto();
-        createdOrderDto.setSecret_payment_url(createUrlForOrderPayment());
+        createdOrderDto.setSecretPaymentUrl(createUrlForOrderPayment());
         //Вызов ресторана получение координат, сохранение в заказе, получение меню,
         //Вызов Свободного курьера, получение координат
         //Вычисление времени доставки
-        createdOrderDto.setEstimated_time_of_arrival("30");
+        createdOrderDto.setEstimatedTimeOfArrival("30");
         List<OrderItem> orderItems = new ArrayList<>();
 
         for (int i = 0; i < menuItems.getQuantity(); i++) {

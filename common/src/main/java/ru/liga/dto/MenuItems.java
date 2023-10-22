@@ -7,5 +7,5 @@ import lombok.Data;
 @Schema(name = "MenuItems")
 public class MenuItems {
     private int quantity;
-    private int menu_item_id;
+    private int idMenuItem;
 }

@@ -53,6 +53,7 @@ public class RestaurantController {
                                                                 @RequestBody MultipartFile image) {
         log.info("Request POST menu item");
         restaurantService.createRestaurantMenuItem(restaurantName, properties, image);
+
         return ResponseEntity.ok().build();
     }
 
@@ -63,6 +64,7 @@ public class RestaurantController {
     public ResponseEntity<?> updatePriceMenuItem(@RequestBody UpdatePriceMenuItemDto updatePriceMenuItemDto) {
         log.info("Request PATCH update price item");
         restaurantService.updatePriceMenuItem(updatePriceMenuItemDto);
+
         return ResponseEntity.ok().build();
     }
 
@@ -76,6 +78,7 @@ public class RestaurantController {
     public ResponseEntity<?> updateItemImage(@PathVariable Long id,
                                              @RequestParam MultipartFile imageFile) {
         log.info("Update image item id: {}", id);
+
         if (restaurantService.updateImage(id, imageFile)) {
             return ResponseEntity.ok().build();
         } else {
@@ -92,8 +95,7 @@ public class RestaurantController {
     public ResponseEntity<List<RestaurantDto>> getRestaurants() {
         log.info("Request GET restaurants");
 
-        return ResponseEntity.ok(restaurantService
-                .getRestaurants());
+        return ResponseEntity.ok(restaurantService.getRestaurants());
     }
 }
 

@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @Schema(name = "OrderAction")
 public class OrderActionDto {
-    private String order_action;
+    private String orderAction;
 }

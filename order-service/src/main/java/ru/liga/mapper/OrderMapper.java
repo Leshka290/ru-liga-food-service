@@ -12,16 +12,10 @@ import java.util.List;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface OrderMapper {
-    @Mapping(source = "order.id", target = "id")
-    @Mapping(source = "order.timestamp", target = "timestamp")
-    @Mapping(source = "order.restaurant", target = "restaurant")
-    @Mapping(source = "order.items", target = "items")
+
     OrderDto orderToOrderDto(Order order);
 
-    @Mapping(source = "order.id", target = "id")
-    @Mapping(source = "order.timestamp", target = "timestamp")
-    @Mapping(source = "order.restaurant", target = "restaurant")
-    @Mapping(source = "order.items", target = "items")
+    @Mapping(source = "order", target = "order.status")
     List<OrderDto> ordersToOrderDto(List<Order> orders);
 
     @Mapping(source = "item.id", target = "menu_item_id")

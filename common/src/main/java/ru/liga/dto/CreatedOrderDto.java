@@ -7,6 +7,6 @@ import lombok.Data;
 @Schema(name = "CreatedOrders")
 public class CreatedOrderDto {
     private Long id;
-    private String secret_payment_url;
-    private String estimated_time_of_arrival;
+    private String secretPaymentUrl;
+    private String estimatedTimeOfArrival;
 }

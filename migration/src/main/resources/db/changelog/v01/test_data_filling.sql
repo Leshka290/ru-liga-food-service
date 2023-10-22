@@ -5,7 +5,7 @@ values (2, 'building', 'city', 'street');
 INSERT INTO payments
 values (3, 5000, 'card_number');
 INSERT INTO couriers
-values (4, 22, '89200000001', 'ACTIVE');
+values (4, 22, 'name', '89200000001', 'ACTIVE');
 INSERT INTO customers
 values (5, 4, 'name', 2);
 INSERT INTO restaurants
