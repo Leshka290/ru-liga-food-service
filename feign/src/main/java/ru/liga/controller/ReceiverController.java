@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.liga.client.KitchenFeign;
-import ru.liga.dto.RestaurantDto;
+import ru.liga.entity.Restaurant;
 
 import java.util.List;
 
@@ -18,8 +18,9 @@ public class ReceiverController {
     private final KitchenFeign kitchenFeign;
 
     @GetMapping("/restaurants")
-    public List<RestaurantDto> getRestaurants() {
+    public List<Restaurant> getRestaurants() {
         log.info("Request GET restaurants");
+
         return kitchenFeign.getRestaurants();
     }
 }

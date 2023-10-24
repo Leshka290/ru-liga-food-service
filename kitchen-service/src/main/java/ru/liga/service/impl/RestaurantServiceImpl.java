@@ -93,7 +93,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         return image;
     }
 
-    public List<RestaurantDto> getRestaurants() {
-        return restaurantMapper.restaurantsToRestaurantsDto(restaurantRepository.findAll());
+    public List<Restaurant> getRestaurants() {
+        return restaurantRepository.findAll();
     }
 }

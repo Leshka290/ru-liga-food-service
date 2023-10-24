@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.dto.*;
@@ -43,15 +42,15 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
-    @Operation(summary = "Добавление заказа")
+    @Operation(summary = "Создание заказа")
     @ApiResponse(responseCode = "200", description = "Created",
             content = @Content(
                     schema = @Schema(implementation = CreatedOrderDto.class))
     )
     @PostMapping()
-    public ResponseEntity<CreatedOrderDto> createOrder(CustomerDto customerDto, @Valid Long restaurantId,
-                                                       @RequestBody MenuItems menuItems) {
-        log.info("Request POST addOrder");
+    public ResponseEntity<CreatedOrderDto> createOrder(@RequestBody CreatedCustomerDto customerDto, MenuItems menuItems,
+                                                       @Valid Long restaurantId) {
+        log.info("Request POST createOrder");
         return ResponseEntity.ok(orderService.createOrder(customerDto, restaurantId, menuItems));
     }
 

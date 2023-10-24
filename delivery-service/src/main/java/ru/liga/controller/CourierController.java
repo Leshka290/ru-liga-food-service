@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.liga.dto.*;
+import ru.liga.entity.Restaurant;
 import ru.liga.service.CourierService;
 
 import java.util.List;
@@ -52,10 +53,10 @@ public class CourierController {
     @Operation(summary = "Получение всех ресторанов")
     @ApiResponse(responseCode = "200", description = "OK",
             content = @Content(
-                    schema = @Schema(implementation = RestaurantDto.class)))
+                    schema = @Schema(implementation = Restaurant.class)))
     @ApiResponse(responseCode = "403", description = "Forbidden")
     @GetMapping("/restaurants")
-    public ResponseEntity<List<RestaurantDto>> getRestaurants() {
+    public ResponseEntity<List<Restaurant>> getRestaurants() {
         log.info("Request GET restaurants");
 
         return ResponseEntity.ok(courierService.getRestaurants());

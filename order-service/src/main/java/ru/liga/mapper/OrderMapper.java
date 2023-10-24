@@ -18,6 +18,6 @@ public interface OrderMapper {
     @Mapping(source = "order", target = "order.status")
     List<OrderDto> ordersToOrderDto(List<Order> orders);
 
-    @Mapping(source = "item.id", target = "menu_item_id")
+    @Mapping(source = "item.id", target = "idMenuItem")
     MenuItems itemsToMenuItems(int quantity, OrderItem item);
 }

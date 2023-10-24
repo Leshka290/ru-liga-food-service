@@ -3,36 +3,35 @@ package ru.liga.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriBuilder;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
+import ru.liga.client.KitchenFeign;
 import ru.liga.dto.*;
-import ru.liga.entity.Customer;
-import ru.liga.entity.Order;
-import ru.liga.entity.OrderItem;
-import ru.liga.entity.Restaurant;
+import ru.liga.entity.*;
+import ru.liga.mapper.AddressMapper;
 import ru.liga.mapper.OrderMapper;
-import ru.liga.repository.OrderItemRepository;
+import ru.liga.repository.AddressRepository;
+import ru.liga.repository.CustomerRepository;
 import ru.liga.repository.OrderRepository;
 import ru.liga.service.OrderService;
 
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
+    private final CustomerRepository customerRepository;
+    private final AddressRepository addressRepository;
     private final OrderMapper orderMapper;
-    private final OrderItemRepository orderItemRepository;
+    private final KitchenFeign kitchenFeign;
 
     @Override
     public OrderDto getOrderById(Long id) {
@@ -46,14 +45,19 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDto> getAllOrders() {
         log.info("Current method is - getAllOrders");
         List<Order> orders = orderRepository.findAll();
+
         return orderMapper.ordersToOrderDto(orders);
     }
 
     @Override
-    public CreatedOrderDto createOrder(CustomerDto customerDto, Long restaurantId, MenuItems menuItems) {
+    public CreatedOrderDto createOrder(CreatedCustomerDto customerDto, Long restaurantId, MenuItems menuItems) {
         CreatedOrderDto createdOrderDto = new CreatedOrderDto();
         createdOrderDto.setSecretPaymentUrl(createUrlForOrderPayment());
-        //Вызов ресторана получение координат, сохранение в заказе, получение меню,
+        List<Restaurant> restaurants = kitchenFeign.getRestaurants();
+        Restaurant restaurant = restaurants.stream()
+                .filter(id -> id.getId() == restaurantId)
+                .findFirst().orElseThrow();
+
         //Вызов Свободного курьера, получение координат
         //Вычисление времени доставки
         createdOrderDto.setEstimatedTimeOfArrival("30");
@@ -65,18 +69,31 @@ public class OrderServiceImpl implements OrderService {
 
         Customer customer = new Customer();
         customer.setName(customerDto.getName());
-        customer.setDistance(customerDto.getDistance());
-        customer.setId(5);
+        customer.setAddress(getAndSaveAddress(customerDto.getAddress()));
+        customerRepository.save(customer);
 
         Order order = new Order();
         order.setStatus(OrderStatus.ACTIVE);
-        order.setRestaurant(null);
+        order.setRestaurant(restaurant);
         order.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
         order.setItems(orderItems);
         order.setCustomer(customer);
         orderRepository.save(order);
 
         return createdOrderDto;
+    }
+
+    private Address getAndSaveAddress(AddressDto addressDto) {
+        Address address = new Address();
+        List<String> strings = Stream.of(addressDto.getAddress().split(","))
+                .map(String::new)
+                .collect(Collectors.toList());
+
+        address.setCity(strings.get(0));
+        address.setStreet(strings.get(1));
+        address.setBuilding(strings.get(2));
+        addressRepository.save(address);
+        return address;
     }
 
     private String createUrlForOrderPayment() {
@@ -93,12 +110,13 @@ public class OrderServiceImpl implements OrderService {
         return null;
     }
 
-    private int generateRandomInt(){
+    private int generateRandomInt() {
         SecureRandom random = new SecureRandom();
         byte[] bytes = random.generateSeed(200);
         random.nextBytes(bytes);
         return random.nextInt(Integer.MAX_VALUE);
     }
+
     @Override
     public List<OrderDto> getAllByStatus(OrderStatus status) {
         List<Order> orders = orderRepository.getOrdersByStatus(status);

@@ -8,6 +8,7 @@ import ru.liga.dto.CourierDto;
 import ru.liga.dto.CourierStatus;
 import ru.liga.dto.RestaurantDto;
 import ru.liga.entity.Courier;
+import ru.liga.entity.Restaurant;
 import ru.liga.mapper.CourierMapper;
 import ru.liga.repository.CourierRepository;
 import ru.liga.service.CourierService;
@@ -46,7 +47,7 @@ public class CourierServiceImpl implements CourierService {
     }
 
     @Override
-    public List<RestaurantDto> getRestaurants() {
+    public List<Restaurant> getRestaurants() {
         return kitchenFeign.getRestaurants();
     }
 }

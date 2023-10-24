@@ -5,6 +5,7 @@ import ru.liga.dto.CreateOrUpdateItemDto;
 import ru.liga.dto.RestaurantDto;
 import ru.liga.dto.RestaurantMenuItemDto;
 import ru.liga.dto.UpdatePriceMenuItemDto;
+import ru.liga.entity.Restaurant;
 
 import java.util.List;
 
@@ -19,5 +20,5 @@ public interface RestaurantService {
 
     boolean updateImage(Long id, MultipartFile imageFile);
 
-    List<RestaurantDto> getRestaurants();
+    List<Restaurant> getRestaurants();
 }

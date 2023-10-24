@@ -15,6 +15,7 @@ import ru.liga.dto.CreateOrUpdateItemDto;
 import ru.liga.dto.RestaurantDto;
 import ru.liga.dto.RestaurantMenuItemDto;
 import ru.liga.dto.UpdatePriceMenuItemDto;
+import ru.liga.entity.Restaurant;
 import ru.liga.service.RestaurantService;
 
 import java.util.List;
@@ -89,10 +90,10 @@ public class RestaurantController {
     @Operation(summary = "Получение всех ресторанов")
     @ApiResponse(responseCode = "200", description = "OK",
             content = @Content(
-                    schema = @Schema(implementation = RestaurantDto.class)))
+                    schema = @Schema(implementation = Restaurant.class)))
     @ApiResponse(responseCode = "403", description = "Forbidden")
-    @GetMapping("/all")
-    public ResponseEntity<List<RestaurantDto>> getRestaurants() {
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<Restaurant>> getRestaurants() {
         log.info("Request GET restaurants");
 
         return ResponseEntity.ok(restaurantService.getRestaurants());

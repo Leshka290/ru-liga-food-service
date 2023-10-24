@@ -9,7 +9,7 @@ public interface OrderService {
 
     List<OrderDto> getAllOrders();
 
-    CreatedOrderDto createOrder(CustomerDto customerDto, Long restaurantId, MenuItems menuItems);
+    CreatedOrderDto createOrder(CreatedCustomerDto customerDto, Long restaurantId, MenuItems menuItems);
 
     List<OrderDto> getAllByStatus(OrderStatus status);
 }
