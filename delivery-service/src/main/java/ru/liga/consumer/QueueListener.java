@@ -6,35 +6,30 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
+import ru.liga.dto.CourierStatus;
 import ru.liga.dto.OrderAction;
+import ru.liga.entity.Courier;
+import ru.liga.exception.CourierFreeNotFoundException;
+import ru.liga.repository.CourierRepository;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class QueueListener {
+    private final CourierRepository courierRepository;
 
-    @RabbitListener(queues = "myQueue1")
-    public void processMyQueue(String message) {
-        log.info("Received from myQueue1 : " + orderAction(message).name());
-        log.info("Свободные курьреры");
-    }
+    @RabbitListener(queues = "findFreeCourier")
+    public void findFreeCourier(String message) {
+        log.info("Received from findFreeCourier : " + orderAction(message).name());
 
-    @RabbitListener(queues = "myQueue2")
-    public void processMyQueue2(String message) {
-        log.info("Received from myQueue2 : " + orderAction(message).name());
-        log.info("Курьеры с заказами");
-    }
+        List<Courier> couriers = courierRepository.getCouriersByStatus(CourierStatus.FREE);
+        log.info("Free couriers: " + couriers);
 
-    @RabbitListener(queues = "myTopicQueue1")
-    public void processMyTopicQueue(String message) {
-        log.info("Received from myTopicQueue1 : " + orderAction(message).name());
-        log.info("Курьеры с заказами");
-    }
-
-    @RabbitListener(queues = "myTopicQueue2")
-    public void processMyTopicQueue2(String message) {
-        log.info("Received from myTopicQueue2 : " + orderAction(message).name());
-        log.info("Свободные курьреры");
+        Courier courier = couriers.stream().findAny().orElseThrow(CourierFreeNotFoundException::new);
+        courier.setStatus(CourierStatus.ACTIVE);
+        log.info("Courier " + courier + " is active");
     }
 
     private OrderAction orderAction(String message) {

@@ -20,8 +20,6 @@ public class CourierServiceImpl implements CourierService {
         String orderStatusInfo = tryToSerialyzeMessageAsString(orderAction);
         if (orderAction.name().equals("ACCEPT")) {
             rabbitMQProducerService.sendMessage(orderStatusInfo, "courier.free");
-        } else {
-            rabbitMQProducerService.sendMessage(orderStatusInfo, "courier.other");
         }
     }
 
