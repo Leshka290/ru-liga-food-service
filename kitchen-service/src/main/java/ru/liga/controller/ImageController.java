@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 public class ImageController {
     private final ImageService imageService;

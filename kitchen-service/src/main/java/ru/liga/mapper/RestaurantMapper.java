@@ -5,7 +5,7 @@ import org.mapstruct.ReportingPolicy;
 import ru.liga.dto.RestaurantDto;
 import ru.liga.entity.Restaurant;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface RestaurantMapper {
     RestaurantDto restaurantToRestaurantDto(Restaurant restaurant);
 }

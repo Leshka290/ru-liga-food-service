@@ -10,7 +10,7 @@ import ru.liga.entity.Order;
 
 import java.util.List;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface OrderMapper {
 
     OrderDto orderToOrderDto(Order order);

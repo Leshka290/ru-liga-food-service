@@ -9,9 +9,9 @@ import ru.liga.entity.RestaurantMenuItem;
 
 import java.util.List;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface RestaurantMenuItemMapper {
-    @Mapping(source = "restaurantMenuItems.id", target = "id")
+
     @Mapping(target = "image", expression = "java(restaurantMenuItem.getImage() != null ? restaurantMenuItem.getImage().getUrl() : \"\")")
     List<RestaurantMenuItemDto> restaurantMenuItemsToRestaurantMenuItemsDto(List<RestaurantMenuItem> restaurantMenuItems);
 

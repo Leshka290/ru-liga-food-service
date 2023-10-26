@@ -6,7 +6,7 @@ import org.mapstruct.ReportingPolicy;
 import ru.liga.dto.AddressDto;
 import ru.liga.entity.Address;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface AddressMapper {
 
     @Mapping(target = "address", expression = "java(address.toString())")
