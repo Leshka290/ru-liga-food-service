@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Schema(name = "RestaurantMenuItem")
 public class RestaurantMenuItemDto {
+    private Long id;
     private String name;
     private Integer price;
     private String description;

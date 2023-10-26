@@ -49,16 +49,4 @@ public class CourierController {
         log.info("Request GET orders by status");
         return ResponseEntity.ok(courierService.getAllByStatus(status));
     }
-
-    @Operation(summary = "Получение всех ресторанов")
-    @ApiResponse(responseCode = "200", description = "OK",
-            content = @Content(
-                    schema = @Schema(implementation = Restaurant.class)))
-    @ApiResponse(responseCode = "403", description = "Forbidden")
-    @GetMapping("/restaurants")
-    public ResponseEntity<List<Restaurant>> getRestaurants() {
-        log.info("Request GET restaurants");
-
-        return ResponseEntity.ok(courierService.getRestaurants());
-    }
 }

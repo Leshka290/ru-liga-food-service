@@ -6,11 +6,13 @@ import org.springframework.stereotype.Service;
 import ru.liga.client.KitchenFeign;
 import ru.liga.dto.*;
 import ru.liga.entity.*;
+import ru.liga.exception.OrderNotFoundException;
 import ru.liga.mapper.AddressMapper;
 import ru.liga.mapper.OrderMapper;
 import ru.liga.repository.AddressRepository;
 import ru.liga.repository.CustomerRepository;
 import ru.liga.repository.OrderRepository;
+import ru.liga.service.OrderItemService;
 import ru.liga.service.OrderService;
 
 import java.net.MalformedURLException;
@@ -30,13 +32,14 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
     private final AddressRepository addressRepository;
+    private final OrderItemService orderItemService;
     private final OrderMapper orderMapper;
     private final KitchenFeign kitchenFeign;
 
     @Override
     public OrderDto getOrderById(Long id) {
         log.info("Current method is - getOrderById");
-        Order order = orderRepository.getOrderById(id).orElseThrow();
+        Order order = orderRepository.getOrderById(id).orElseThrow(OrderNotFoundException::new);
 
         return orderMapper.orderToOrderDto(order);
     }
@@ -53,34 +56,33 @@ public class OrderServiceImpl implements OrderService {
     public CreatedOrderDto createOrder(CreatedCustomerDto customerDto, Long restaurantId, MenuItems menuItems) {
         CreatedOrderDto createdOrderDto = new CreatedOrderDto();
         createdOrderDto.setSecretPaymentUrl(createUrlForOrderPayment());
+        createdOrderDto.setEstimatedTimeOfArrival("30");
+
         List<Restaurant> restaurants = kitchenFeign.getRestaurants();
         Restaurant restaurant = restaurants.stream()
                 .filter(id -> id.getId() == restaurantId)
                 .findFirst().orElseThrow();
 
-        //Вызов Свободного курьера, получение координат
-        //Вычисление времени доставки
-        createdOrderDto.setEstimatedTimeOfArrival("30");
-        List<OrderItem> orderItems = new ArrayList<>();
-
-        for (int i = 0; i < menuItems.getQuantity(); i++) {
-            orderItems.add(new OrderItem());
-        }
-
-        Customer customer = new Customer();
-        customer.setName(customerDto.getName());
-        customer.setAddress(getAndSaveAddress(customerDto.getAddress()));
-        customerRepository.save(customer);
+        Customer customer = customerRepository.save(createCustomer(customerDto));
+        List<OrderItem> orderItems = orderItemService.createOrderItems(restaurant, menuItems);
 
         Order order = new Order();
         order.setStatus(OrderStatus.ACTIVE);
         order.setRestaurant(restaurant);
         order.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-        order.setItems(orderItems);
         order.setCustomer(customer);
+        order.setItems(orderItems);
         orderRepository.save(order);
 
+        createdOrderDto.setId(order.getId());
         return createdOrderDto;
+    }
+
+    private Customer createCustomer(CreatedCustomerDto customerDto) {
+        Customer customer = new Customer();
+        customer.setName(customerDto.getName());
+        customer.setAddress(getAndSaveAddress(customerDto.getAddress()));
+        return customer;
     }
 
     private Address getAndSaveAddress(AddressDto addressDto) {

@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface RestaurantMenuItemRepository extends JpaRepository<RestaurantMenuItem, Long> {
     List<RestaurantMenuItem> getRestaurantMenuItemsByRestaurant_Name(String restaurant_name);
+
+    List<RestaurantMenuItem> getRestaurantMenuItemsByRestaurantId(Long id);
 }
