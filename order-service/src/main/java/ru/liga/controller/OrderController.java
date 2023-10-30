@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.dto.*;
+import ru.liga.entity.Order;
 import ru.liga.service.OrderService;
 
 import javax.validation.Valid;
@@ -26,8 +27,19 @@ public class OrderController {
     @ApiResponse(responseCode = "400", description = "Bad Request")
     @ApiResponse(responseCode = "404", description = "Not Found")
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    @GetMapping("/dto/{id}")
+    public ResponseEntity<OrderDto> getOrderDtoById(@PathVariable Long id) {
+        log.info("Request GET orderDto by id");
+        return ResponseEntity.ok(orderService.getOrderDtoById(id));
+    }
+
+    @Operation(summary = "Получение полной информации о заказе по id")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "400", description = "Bad Request")
+    @ApiResponse(responseCode = "404", description = "Not Found")
+    @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDto> getOrderById(@PathVariable Long id) {
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
         log.info("Request GET order by id");
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
@@ -61,5 +73,15 @@ public class OrderController {
     public ResponseEntity<List<OrderDto>> getAllByStatus(@PathVariable OrderStatus status) {
         log.info("Request GET orders by status");
         return ResponseEntity.ok(orderService.getAllByStatus(status));
+    }
+
+    @Operation(summary = "Обновление статуса заказа")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "400", description = "Bad Request")
+    @PostMapping("/update/{id}")
+    private void updateOrderStatusById(@PathVariable Long id, @RequestParam OrderStatus status) {
+        log.info("Request PATCH order status by id");
+        orderService.updateOrderStatusById(id, status);
+        ResponseEntity.ok().build();
     }
 }

@@ -6,16 +6,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.liga.client.KitchenFeign;
+import ru.liga.client.OrderFeign;
+import ru.liga.dto.OrderStatus;
 import ru.liga.dto.RestaurantDto;
 import ru.liga.dto.RestaurantMenuItemDto;
+import ru.liga.entity.Order;
 import ru.liga.entity.Restaurant;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ import java.util.List;
 @RestController
 public class ReceiverController {
     private final KitchenFeign kitchenFeign;
+    private final OrderFeign orderFeign;
 
     @GetMapping("/restaurants")
     public List<Restaurant> getRestaurants() {
@@ -36,5 +38,18 @@ public class ReceiverController {
         log.info("Request GET menu items restaurant");
 
         return kitchenFeign.getMenuItemsByRestaurantId(id);
+    }
+
+    @GetMapping("/order/{id}")
+    public Optional<Order> getOrderById(Long id) {
+        log.info("Request GET order by id");
+
+        return orderFeign.getOrderById(id);
+    }
+
+    @PostMapping("/update/{id}")
+    void updateOrderStatusById(@PathVariable Long id, @RequestParam OrderStatus status) {
+        log.info("Request PATCH order status by id");
+        orderFeign.updateOrderStatusById(id, status);
     }
 }

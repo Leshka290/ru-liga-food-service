@@ -89,7 +89,7 @@ public class RestaurantMenuItemController {
                             description = "Not Found")}, tags = "Image")
     @PatchMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateItemImage(@PathVariable Long id,
-                                             @RequestParam MultipartFile imageFile) {
+                                             @RequestBody MultipartFile imageFile) {
         log.info("Update image item id: {}", id);
 
         if (restaurantMenuItemService.updateImage(id, imageFile)) {

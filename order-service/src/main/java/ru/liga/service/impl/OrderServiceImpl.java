@@ -37,13 +37,18 @@ public class OrderServiceImpl implements OrderService {
     private final KitchenFeign kitchenFeign;
 
     @Override
-    public OrderDto getOrderById(Long id) {
+    public OrderDto getOrderDtoById(Long id) {
         log.info("Current method is - getOrderById");
         Order order = orderRepository.getOrderById(id).orElseThrow(OrderNotFoundException::new);
 
         return orderMapper.orderToOrderDto(order);
     }
 
+    @Override
+    public Order getOrderById(Long id) {
+        log.info("Current method is - getOrderById");
+        return orderRepository.getOrderById(id).orElseThrow(OrderNotFoundException::new);
+    }
     @Override
     public List<OrderDto> getAllOrders() {
         log.info("Current method is - getAllOrders");
@@ -123,5 +128,12 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDto> getAllByStatus(OrderStatus status) {
         List<Order> orders = orderRepository.getOrdersByStatus(status);
         return orderMapper.ordersToOrderDto(orders);
+    }
+
+    @Override
+    public void updateOrderStatusById(Long id, OrderStatus status) {
+        Order order = orderRepository.getOrderById(id).orElseThrow(OrderNotFoundException::new);
+        order.setStatus(status);
+        orderRepository.save(order);
     }
 }
