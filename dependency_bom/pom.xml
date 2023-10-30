@@ -8,8 +8,9 @@
     </parent>
 
     <artifactId>dependency_bom</artifactId>
-    <name>dependency_bom</name>
     <packaging>pom</packaging>
+
+    <name>dependency_bom</name>
 
     <properties>
         <java.version>11</java.version>
@@ -23,6 +24,9 @@
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <org.springdoc.version>1.6.14</org.springdoc.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <spring-security-test.version>6.0.8</spring-security-test.version>
+        <spring-security-oauth2-authorization-server.version>0.3.0</spring-security-oauth2-authorization-server.version>
+        <spring-session-core.version>2.7.4</spring-session-core.version>
     </properties>
 
     <dependencyManagement>
@@ -73,13 +77,23 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-test</artifactId>
-                <version>${spring.version}</version>
+                <version>${spring-security-test.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-mail</artifactId>
                 <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-authorization-server</artifactId>
+                <version>${spring-security-oauth2-authorization-server.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.session</groupId>
+                <artifactId>spring-session-core</artifactId>
+                <version>${spring-session-core.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mapstruct</groupId>
