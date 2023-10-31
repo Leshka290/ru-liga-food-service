@@ -7,10 +7,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.liga.dto.CreatedRestaurantDto;
 import ru.liga.dto.RestaurantDto;
 import ru.liga.entity.Restaurant;
 import ru.liga.service.RestaurantService;
@@ -47,6 +45,17 @@ public class RestaurantController {
         log.info("Request GET restaurant by id");
 
         return ResponseEntity.ok(restaurantService.getRestaurantById(id));
+    }
+
+    @Operation(summary = "Добавление ресторана")
+    @ApiResponse(responseCode = "200", description = "OK",
+            content = @Content(
+                    schema = @Schema(implementation = CreatedRestaurantDto.class)))
+    @ApiResponse(responseCode = "403", description = "Forbidden")
+    @PostMapping()
+    public ResponseEntity<RestaurantDto> createRestaurant(CreatedRestaurantDto createdRestaurantDto) {
+        log.info("Request POST restaurant");
+        return ResponseEntity.ok(restaurantService.createRestaurant(createdRestaurantDto));
     }
 }
 

@@ -1,7 +1,6 @@
 package ru.liga.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
 import ru.liga.dto.RestaurantDto;
 import ru.liga.entity.Restaurant;
 
