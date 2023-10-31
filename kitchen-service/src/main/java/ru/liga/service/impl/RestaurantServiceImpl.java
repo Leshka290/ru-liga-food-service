@@ -8,14 +8,13 @@ import ru.liga.dto.RestaurantDto;
 import ru.liga.entity.Address;
 import ru.liga.entity.Restaurant;
 import ru.liga.exception.RestaurantNotFoundException;
+import ru.liga.mapper.CustomAddressMapper;
 import ru.liga.mapper.RestaurantMapper;
 import ru.liga.repository.AddressRepository;
 import ru.liga.repository.RestaurantRepository;
 import ru.liga.service.RestaurantService;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,6 +23,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final AddressRepository addressRepository;
     private final RestaurantMapper restaurantMapper;
+    private final CustomAddressMapper addressMapper;
 
     @Override
     public List<Restaurant> getRestaurants() {
@@ -40,23 +40,14 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public RestaurantDto createRestaurant(CreatedRestaurantDto restaurantDto) {
         Restaurant restaurant = new Restaurant();
+        Address address = addressMapper.addressToAddressDto(restaurantDto.getAddress());
+
         restaurant.setName(restaurantDto.getName());
-        restaurant.setAddress(getAndSaveAddress(restaurantDto.getAddress()));
+        restaurant.setAddress(address);
+        addressRepository.save(address);
         restaurantRepository.save(restaurant);
 
         return restaurantMapper.restaurantToRestaurantDto(restaurant);
     }
 
-    private Address getAndSaveAddress(String addressStr) {
-        Address address = new Address();
-        List<String> strings = Stream.of(addressStr.split(","))
-                .map(String::new)
-                .collect(Collectors.toList());
-
-        address.setCity(strings.get(0));
-        address.setStreet(strings.get(1));
-        address.setBuilding(strings.get(2));
-        addressRepository.save(address);
-        return address;
-    }
 }
