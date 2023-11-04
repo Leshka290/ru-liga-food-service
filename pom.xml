@@ -25,5 +25,7 @@
         <module>migration</module>
         <module>common</module>
         <module>feign</module>
+        <module>auth-service</module>
+        <module>cloud-gateway</module>
     </modules>
 </project>
