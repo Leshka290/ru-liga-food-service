@@ -5,10 +5,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.liga.dto.AddressDto;
+import ru.liga.dto.CreatedRestaurantDto;
 import ru.liga.dto.RestaurantDto;
+import ru.liga.entity.Address;
 import ru.liga.entity.Restaurant;
-import ru.liga.mapper.CustomRestaurantMapper;
+import ru.liga.mapper.AddressMapper;
+import ru.liga.mapper.CustomAddressMapper;
 import ru.liga.mapper.RestaurantMapperImpl;
+import ru.liga.repository.AddressRepository;
 import ru.liga.repository.RestaurantRepository;
 import ru.liga.service.impl.RestaurantServiceImpl;
 
@@ -25,10 +30,13 @@ public class RestaurantServiceTest {
     private RestaurantRepository restaurantRepository;
 
     @Mock
+    private AddressRepository addressRepository;
+
+    @Mock
     private RestaurantMapperImpl restaurantMapper;
 
     @Mock
-    private CustomRestaurantMapper customRestaurantMapper;
+    private CustomAddressMapper addressMapper;
 
     @InjectMocks
     private RestaurantServiceImpl restaurantService;
@@ -53,5 +61,39 @@ public class RestaurantServiceTest {
 
         RestaurantDto restaurantDto = restaurantService.getRestaurantById(id);
         assertNotNull(restaurantDto);
+    }
+
+    @Test
+    public void createRestaurantTest() {
+        Restaurant restaurant = new Restaurant();
+        Address address = new Address();
+        address.setCity("city");
+        address.setStreet("street");
+        address.setBuilding("building");
+        restaurant.setAddress(address);
+        restaurant.setName("name");
+
+        AddressDto addressDto = new AddressDto();
+        addressDto.setAddress("city, street, building");
+
+        RestaurantDto restaurantDto = new RestaurantDto();
+        restaurantDto.setName("name");
+
+        CreatedRestaurantDto createdRestaurantDto = new CreatedRestaurantDto();
+        createdRestaurantDto.setName("name");
+        createdRestaurantDto.setAddress(addressDto.getAddress());
+
+        when(restaurantRepository.save(restaurant)).thenReturn(restaurant);
+        when(addressRepository.save(address)).thenReturn(address);
+        when(addressMapper.addressToAddressDto(createdRestaurantDto.getAddress())).thenReturn(address);
+        when(restaurantMapper.restaurantToRestaurantDto(restaurant)).thenReturn(restaurantDto);
+
+        assertEquals(restaurantRepository.save(restaurant), restaurant);
+        assertEquals(addressRepository.save(address), address);
+        assertEquals(addressMapper.addressToAddressDto(createdRestaurantDto.getAddress()), address);
+        assertEquals(restaurant.getAddress(), address);
+        assertEquals(restaurantMapper.restaurantToRestaurantDto(restaurant), restaurantDto);
+        assertEquals(restaurantService.createRestaurant(createdRestaurantDto), restaurantDto);
+        assertEquals(restaurant.getName(), "name");
     }
 }
