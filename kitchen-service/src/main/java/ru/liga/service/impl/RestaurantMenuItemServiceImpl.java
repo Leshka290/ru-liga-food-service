@@ -12,6 +12,7 @@ import ru.liga.entity.Image;
 import ru.liga.entity.Restaurant;
 import ru.liga.entity.RestaurantMenuItem;
 import ru.liga.exception.ItemNotFoundException;
+import ru.liga.exception.RestaurantMenuItemNotFoundException;
 import ru.liga.mapper.RestaurantMenuItemMapper;
 import ru.liga.repository.RestaurantMenuItemRepository;
 import ru.liga.repository.RestaurantRepository;
@@ -32,6 +33,7 @@ public class RestaurantMenuItemServiceImpl implements RestaurantMenuItemService 
 
     @Override
     public List<RestaurantMenuItemDto> getRestaurantMenuItemsByRestaurant(RestaurantDto restaurantDto) {
+        log.info("started getRestaurantMenuItemsByRestaurant.");
         List<RestaurantMenuItem> restaurantMenuItems = restaurantMenuItemRepository
                 .getRestaurantMenuItemsByRestaurant_Name(restaurantDto.getName());
         return restaurantMenuItemMapper.restaurantMenuItemsToRestaurantMenuItemsDto(restaurantMenuItems);
@@ -39,6 +41,7 @@ public class RestaurantMenuItemServiceImpl implements RestaurantMenuItemService 
 
     @Override
     public List<RestaurantMenuItemDto> getRestaurantMenuItemsByRestaurantId(Long id) {
+        log.info("started getRestaurantMenuItemsByRestaurantId.");
         List<RestaurantMenuItem> restaurantMenuItems = restaurantMenuItemRepository
                 .getRestaurantMenuItemsByRestaurantId(id);
         return restaurantMenuItemMapper.restaurantMenuItemsToRestaurantMenuItemsDto(restaurantMenuItems);
@@ -48,7 +51,7 @@ public class RestaurantMenuItemServiceImpl implements RestaurantMenuItemService 
     public RestaurantMenuItemDto createRestaurantMenuItem(String restaurantName,
                                                           CreateOrUpdateItemDto createOrUpdateItemDto,
                                                           MultipartFile imageFile) {
-
+        log.info("started createRestaurantMenuItem.");
         restaurantMenuItemRepository.save(createMenuItem(restaurantName, createOrUpdateItemDto, imageFile));
         return restaurantMenuItemMapper.restaurantMenuItemToRestaurantMenuItemDto(
                 createMenuItem(restaurantName, createOrUpdateItemDto, imageFile));
@@ -57,6 +60,7 @@ public class RestaurantMenuItemServiceImpl implements RestaurantMenuItemService 
     private RestaurantMenuItem createMenuItem(String restaurantName,
                                               CreateOrUpdateItemDto createOrUpdateItemDto,
                                               MultipartFile imageFile) {
+        log.info("started createMenuItem.");
         Restaurant restaurant = restaurantRepository.getRestaurantByName(restaurantName).orElseThrow();
 
         RestaurantMenuItem restaurantMenuItem = new RestaurantMenuItem();
@@ -71,8 +75,11 @@ public class RestaurantMenuItemServiceImpl implements RestaurantMenuItemService 
 
     @Override
     public void updatePriceMenuItem(UpdatePriceMenuItemDto updatePriceMenuItemDto) {
+        log.info("started updatePriceMenuItem.");
         RestaurantMenuItem restaurantMenuItem = restaurantMenuItemRepository
-                .findById(updatePriceMenuItemDto.getIdMenuItem()).orElseThrow();
+                .findById(updatePriceMenuItemDto.getIdMenuItem())
+                .orElseThrow(RestaurantMenuItemNotFoundException::new);
+
         restaurantMenuItem.setPrice(updatePriceMenuItemDto.getPrice());
         restaurantMenuItemRepository.save(restaurantMenuItem);
     }
