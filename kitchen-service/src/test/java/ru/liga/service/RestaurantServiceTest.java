@@ -10,7 +10,6 @@ import ru.liga.dto.CreatedRestaurantDto;
 import ru.liga.dto.RestaurantDto;
 import ru.liga.entity.Address;
 import ru.liga.entity.Restaurant;
-import ru.liga.mapper.AddressMapper;
 import ru.liga.mapper.CustomAddressMapper;
 import ru.liga.mapper.RestaurantMapperImpl;
 import ru.liga.repository.AddressRepository;

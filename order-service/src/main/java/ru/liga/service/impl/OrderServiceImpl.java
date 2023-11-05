@@ -3,6 +3,7 @@ package ru.liga.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.liga.batisMapper.BatisOrderMapper;
 import ru.liga.client.KitchenFeign;
 import ru.liga.dto.*;
 import ru.liga.entity.*;
@@ -33,6 +34,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderItemService orderItemService;
     private final OrderMapper orderMapper;
     private final KitchenFeign kitchenFeign;
+    private final BatisOrderMapper batisOrderMapper;
 
     @Override
     public OrderDto getOrderDtoById(Long id) {
@@ -42,11 +44,18 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.orderToOrderDto(order);
     }
 
+//    @Override
+//    public Order getOrderById(Long id) {
+//        log.info("Current method is - getOrderById");
+//        return orderRepository.getOrderById(id).orElseThrow(OrderNotFoundException::new);
+//    }
+
     @Override
     public Order getOrderById(Long id) {
         log.info("Current method is - getOrderById");
-        return orderRepository.getOrderById(id).orElseThrow(OrderNotFoundException::new);
+        return batisOrderMapper.getOrderById(id);
     }
+
     @Override
     public List<OrderDto> getAllOrders() {
         log.info("Current method is - getAllOrders");
