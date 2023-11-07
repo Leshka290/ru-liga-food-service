@@ -9,6 +9,8 @@ import ru.liga.dto.CourierStatus;
 import ru.liga.dto.RestaurantDto;
 import ru.liga.entity.Courier;
 import ru.liga.entity.Restaurant;
+import ru.liga.exception.CourierFreeNotFoundException;
+import ru.liga.exception.CourierNotFoundException;
 import ru.liga.mapper.CourierMapper;
 import ru.liga.repository.CourierRepository;
 import ru.liga.service.CourierService;
@@ -39,7 +41,7 @@ public class CourierServiceImpl implements CourierService {
 
     @Override
     public CourierDto updateStatus(Long id, CourierStatus status) {
-        Courier courier = courierRepository.findById(id).orElseThrow();
+        Courier courier = courierRepository.findById(id).orElseThrow(CourierNotFoundException::new);
         courier.setStatus(status);
         courierRepository.save(courier);
 

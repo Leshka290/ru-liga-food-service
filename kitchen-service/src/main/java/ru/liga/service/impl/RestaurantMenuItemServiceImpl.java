@@ -13,6 +13,7 @@ import ru.liga.entity.Restaurant;
 import ru.liga.entity.RestaurantMenuItem;
 import ru.liga.exception.ItemNotFoundException;
 import ru.liga.exception.RestaurantMenuItemNotFoundException;
+import ru.liga.exception.RestaurantNotFoundException;
 import ru.liga.mapper.RestaurantMenuItemMapper;
 import ru.liga.repository.RestaurantMenuItemRepository;
 import ru.liga.repository.RestaurantRepository;
@@ -61,7 +62,8 @@ public class RestaurantMenuItemServiceImpl implements RestaurantMenuItemService 
                                               CreateOrUpdateItemDto createOrUpdateItemDto,
                                               MultipartFile imageFile) {
         log.info("started createMenuItem.");
-        Restaurant restaurant = restaurantRepository.getRestaurantByName(restaurantName).orElseThrow();
+        Restaurant restaurant = restaurantRepository.getRestaurantByName(restaurantName)
+                .orElseThrow(RestaurantNotFoundException::new);
 
         RestaurantMenuItem restaurantMenuItem = new RestaurantMenuItem();
         restaurantMenuItem.setName(createOrUpdateItemDto.getName());
